@@ -56,7 +56,7 @@ Requires Xcode and [xcodegen](https://github.com/yonaskolb/XcodeGen).
 
 ```bash
 brew install xcodegen
-git clone https://github.com/AICrafterZheng/marky.git
+git clone https://github.com/barabasicsongor/marky.git
 cd marky
 xcodegen generate
 xcodebuild -project Marky.xcodeproj -scheme Marky -configuration Release -derivedDataPath ./build build
