@@ -1,0 +1,53 @@
+name: Marky
+options:
+  bundleIdPrefix: com.marky
+  deploymentTarget:
+    macOS: "13.0"
+  xcodeVersion: "16.0"
+targets:
+  Marky:
+    type: application
+    platform: macOS
+    sources:
+      - path: Marky
+    info:
+      path: Marky/Info.plist
+      properties:
+        CFBundleDocumentTypes:
+          - CFBundleTypeExtensions:
+              - md
+              - markdown
+              - mdown
+            CFBundleTypeName: Markdown Document
+            CFBundleTypeRole: Editor
+            LSItemContentTypes:
+              - net.daringfireball.markdown
+            LSHandlerRank: Alternate
+          - CFBundleTypeExtensions:
+              - txt
+            CFBundleTypeName: Plain Text Document
+            CFBundleTypeRole: Editor
+            LSItemContentTypes:
+              - public.plain-text
+            LSHandlerRank: Alternate
+        UTImportedTypeDeclarations:
+          - UTTypeConformsTo:
+              - public.plain-text
+            UTTypeDescription: Markdown Document
+            UTTypeIdentifier: net.daringfireball.markdown
+            UTTypeTagSpecification:
+              public.filename-extension:
+                - md
+                - markdown
+                - mdown
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.marky.app
+        MARKETING_VERSION: "1.0.0"
+        CURRENT_PROJECT_VERSION: "1"
+        SWIFT_VERSION: "5.9"
+        MACOSX_DEPLOYMENT_TARGET: "13.0"
+        CODE_SIGN_IDENTITY: "-"
+        CODE_SIGN_STYLE: Manual
+        PRODUCT_NAME: Marky
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
