@@ -59,7 +59,7 @@
   /* Paragraphs */
   #editor p { margin: 0.75em 0; }
   /* Links */
-  #editor a { color: var(--link); text-decoration: underline; text-underline-offset: 2px; }
+  #editor a { color: var(--link); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
   /* Bold & Italic */
   #editor strong { font-weight: 600; }
   #editor em { font-style: italic; }
@@ -1410,6 +1410,19 @@ var TurndownService = (function () {
           document.execCommand('insertHTML', false, '<a href="">' + text + '</a>');
         }
         break;
+    }
+  });
+
+  // --- Click to open links ---
+  editor.addEventListener('click', function(e) {
+    var target = e.target.closest('a');
+    if (!target) return;
+    var href = target.getAttribute('href');
+    if (href) {
+      e.preventDefault();
+      try {
+        window.webkit.messageHandlers.openLink.postMessage(href);
+      } catch(err) {}
     }
   });
 

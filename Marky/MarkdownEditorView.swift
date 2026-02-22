@@ -9,6 +9,7 @@ struct MarkdownEditorView: NSViewRepresentable {
         let userContent = config.userContentController
         userContent.add(context.coordinator, name: "editorReady")
         userContent.add(context.coordinator, name: "contentChanged")
+        userContent.add(context.coordinator, name: "openLink")
 
         let webView = WKWebView(frame: .zero, configuration: config)
         webView.navigationDelegate = context.coordinator
@@ -64,9 +65,27 @@ struct MarkdownEditorView: NSViewRepresentable {
                     self.isUpdatingFromJS = false
                 }
 
+            case "openLink":
+                guard let urlString = message.body as? String,
+                      let url = URL(string: urlString) else { return }
+                NSWorkspace.shared.open(url)
+
             default:
                 break
             }
+        }
+
+        func webView(_ webView: WKWebView,
+                     decidePolicyFor navigationAction: WKNavigationAction,
+                     decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+            if navigationAction.navigationType == .linkActivated,
+               let url = navigationAction.request.url,
+               url.scheme == "http" || url.scheme == "https" {
+                NSWorkspace.shared.open(url)
+                decisionHandler(.cancel)
+                return
+            }
+            decisionHandler(.allow)
         }
 
         func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
